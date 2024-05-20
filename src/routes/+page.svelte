@@ -1,2 +1,16 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+    import GameList from '$lib/components/GameList.svelte';
+    import GameSticker from '$lib/components/GameSticker.svelte';
+</script>
+
+<main>
+    <h1>Bazaar Game Listings</h1>
+    <GameList />
+    <GameSticker />
+</main>
+
+<style>
+    main {
+        padding: 1em;
+    }
+</style>
