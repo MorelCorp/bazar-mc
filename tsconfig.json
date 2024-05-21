@@ -1,20 +1,15 @@
 {
-	"extends": "./.svelte-kit/tsconfig.json",
-	"compilerOptions": {
-		"allowJs": true,
-		"checkJs": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
-		"sourceMap": true,
-		"strict": true,
-		"moduleResolution": "bundler",
-        "baseUrl": ".",
-        "paths": {
-            "$lib/*": ["src/lib/*"],
-            "$routes/*": ["src/routes/*"]
-        }
-	},
-	"include": ["src/**/*.ts", "src/**/*.svelte", "global.d.ts"]
+    "extends": "./.svelte-kit/tsconfig.json",
+    "compilerOptions": {
+        "strict": true,
+        "module": "ESNext",
+        "target": "ES2020",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "verbatimModuleSyntax": false,
+        "types": ["@testing-library/jest-dom"]
+    },
+    "include": ["src/**/*.ts", "src/**/*.svelte", "tests/**/*.ts", "global.d.ts", "setup-jest-dom.d.ts"]
 }

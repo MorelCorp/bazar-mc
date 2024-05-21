@@ -5,7 +5,7 @@
     let price = 0;
 
     const addGame = () => {
-        games.update((current: { title: string; price: number; sold: boolean }[]) => [
+        games.update((current) => [
             ...current,
             { title, price, sold: false }
         ]);
