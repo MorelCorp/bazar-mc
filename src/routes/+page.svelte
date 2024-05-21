@@ -1,6 +1,6 @@
 <script lang="ts">
-    import GameList from '$lib/components/GameList.svelte';
-    import GameSticker from '$lib/components/GameSticker.svelte';
+    import GameList from '../components/GameList.svelte';
+    import GameSticker from '../components/GameSticker.svelte';
 </script>
 
 <main>
