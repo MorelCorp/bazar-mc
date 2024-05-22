@@ -27,6 +27,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"html5-qrcode": "^2.3.8",
 		"jspdf": "^2.5.1"
 	}
 }
