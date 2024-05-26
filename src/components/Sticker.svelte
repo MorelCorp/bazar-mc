@@ -118,6 +118,8 @@
   
     .sticker-content {
       margin-top: 10px;
+      padding-bottom: 90px; /* Reserve space for the price circle */
+      padding-right: 90px; /* Reserve space for the price circle */
     }
   
     .sticker-content div {
@@ -134,7 +136,9 @@
       border-radius: 50%;
       width: 80px;
       height: 80px;
-      margin: 10px auto;
+      position: absolute;
+      bottom: 10px; /* Adjust to ensure it stays within the boundary */
+      right: 10px; /* Adjust to ensure it stays within the boundary */
     }
   </style>
   
@@ -154,10 +158,7 @@
         <em>(Montant arrondi s.v.p.)</em><br />
         2$ sera prélevé de la vente de chacun des jeux au profit de Jeux de Société Qc.
       </div>
-      <div class="price">{price}$</div>
-      <div>
-        <strong>Prix</strong>
-      </div>
     </div>
+    <div class="price">{price}$</div>
   </div>
   
