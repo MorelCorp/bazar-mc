@@ -6,10 +6,6 @@
   let editValue = '';
 
   const startEdit = (index, field) => {
-
-    if( editField != '' && editIndex != -1) {
-      saveEdit(editIndex, editField);
-    }
     
     editIndex = index;
     editField = field;
@@ -130,7 +126,6 @@
               id={`title-${index}`}
               type="text"
               bind:value={editValue}
-              on:blur={() => saveEdit(index, 'title')}
               on:keydown={(e) => handleKeyDown(e, index, 'title')}
             />
           {:else}
@@ -143,7 +138,6 @@
               id={`price-${index}`}
               type="number"
               bind:value={editValue}
-              on:blur={() => saveEdit(index, 'price')}
               on:keydown={(e) => handleKeyDown(e, index, 'price')}
             />
           {:else}
