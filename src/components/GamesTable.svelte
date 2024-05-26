@@ -1,56 +1,38 @@
 <script>
-    import { writable } from 'svelte/store';
+    import { games } from '../stores/games'; // Import the existing games store
   
-    let games = writable([
-      { name: '', price: '' },
-      // Add initial 10 rows
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-      { name: '', price: '' },
-    ]);
+    let editIndex = -1;
+    let editField = '';
+    let editValue = '';
+  
+    const startEdit = (index, field) => {
+      editIndex = index;
+      editField = field;
+      editValue = $games[index][field];
+    };
+  
+    const saveEdit = (index, field) => {
+      games.update(items => {
+        items[index][field] = editValue;
+        return items;
+      });
+      editIndex = -1;
+      editField = '';
+    };
+  
+    const cancelEdit = () => {
+      editIndex = -1;
+      editField = '';
+    };
   
     const addRow = () => {
-      games.update(current => [...current, { name: '', price: '' }]);
+      games.update(current => [...current, { title: '', price: 0, sold: false }]);
     };
   
     const removeRow = (index) => {
       games.update(current => current.filter((_, i) => i !== index));
     };
   </script>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Game Name</th>
-        <th>Price</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each $games as game, index (index)}
-        <tr>
-          <td><input type="text" bind:value={game.name} /></td>
-          <td><input type="text" bind:value={game.price} /></td>
-          <td>
-            <button on:click={() => removeRow(index)} class="delete-button">
-              🗑️
-            </button>
-          </td>
-        </tr>
-      {/each}
-      <tr>
-        <td colspan="3" class="add-row">
-          <button on:click={addRow}>➕ Add Row</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
   
   <style>
     table {
@@ -61,6 +43,13 @@
     th, td {
       border: 1px solid #ddd;
       padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .editable {
+      cursor: pointer;
     }
     .delete-button {
       opacity: 0.5;
@@ -73,4 +62,42 @@
       text-align: center;
     }
   </style>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Game Name</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each $games as game, index (index)}
+        <tr>
+          <td class="editable" on:click={() => startEdit(index, 'title')}>
+            {#if editIndex === index && editField === 'title'}
+              <input type="text" bind:value={editValue} on:blur={() => saveEdit(index, 'title')} />
+            {:else}
+              {game.title}
+            {/if}
+          </td>
+          <td class="editable" on:click={() => startEdit(index, 'price')}>
+            {#if editIndex === index && editField === 'price'}
+              <input type="number" bind:value={editValue} on:blur={() => saveEdit(index, 'price')} />
+            {:else}
+              ${game.price}
+            {/if}
+          </td>
+          <td>
+            <button on:click={() => removeRow(index)} class="delete-button">🗑️</button>
+          </td>
+        </tr>
+      {/each}
+      <tr>
+        <td colspan="4" class="add-row">
+          <button on:click={addRow}>➕ Add Row</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   
