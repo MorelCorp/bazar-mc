@@ -9,6 +9,13 @@
     editIndex = index;
     editField = field;
     editValue = $games[index][field];
+
+    setTimeout(() => {
+      const inputElement = document.getElementById(`${field}-${index}`);
+      if (inputElement) {
+        inputElement.focus();
+      }
+    }, 0);
   };
 
   const saveEdit = (index, field) => {
@@ -20,15 +27,8 @@
     editField = '';
   };
 
-  const cancelEdit = () => {
-    editIndex = -1;
-    editField = '';
-  };
-
   const addRow = () => {
     games.update(current => [...current, { title: '', price: 0, sold: false }]);
-    $games.length - 1;
-    // Use $games to get the new length after adding the row
   };
 
   const removeRow = (index) => {
@@ -38,22 +38,34 @@
   const handleKeyDown = (event, index, field) => {
     if (event.key === 'Tab') {
       event.preventDefault();
-
-      const nextIndex = field === 'title' ? `price-${index}` : `title-${index + 1}`;
-      const nextElement = document.getElementById(nextIndex);
+      console.log(`Tab pressed in field: ${field}, index: ${index}`);
+      
+      let nextElement;
+      if (field === 'title') {
+        nextElement = document.getElementById(`price-td-${index}`);
+      } else if (field === 'price') {
+        if (index === $games.length - 1) {
+          addRow();
+          setTimeout(() => {
+            const newElement = document.getElementById(`title-td-${$games.length - 1}`);
+            if (newElement) {
+              newElement.click();
+            }
+          }, 0);
+          return;
+        } else {
+          nextElement = document.getElementById(`title-td-${index + 1}`);
+        }
+      }
 
       if (nextElement) {
-        nextElement.focus();
-      } else {
-        addRow();
-        setTimeout(() => {
-          const newElement = document.getElementById(`title-${$games.length - 1}`);
-          if (newElement) {
-            newElement.focus();
-          }
-        }, 0);
+        nextElement.click();
       }
     }
+  };
+
+  const handleFocus = (event, index, field) => {
+    startEdit(index, field);
   };
 </script>
 
@@ -84,6 +96,18 @@
   .add-row {
     text-align: center;
   }
+  .add-row button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .add-row button:hover {
+    background-color: #f2f2f2;
+  }
 </style>
 
 <table>
@@ -97,7 +121,7 @@
   <tbody>
     {#each $games as game, index (index)}
       <tr>
-        <td class="editable" on:click={() => startEdit(index, 'title')}>
+        <td id={`title-td-${index}`} class="editable" on:click={() => startEdit(index, 'title')}>
           {#if editIndex === index && editField === 'title'}
             <input
               id={`title-${index}`}
@@ -110,7 +134,7 @@
             {game.title}
           {/if}
         </td>
-        <td class="editable" on:click={() => startEdit(index, 'price')}>
+        <td id={`price-td-${index}`} class="editable" on:click={() => startEdit(index, 'price')}>
           {#if editIndex === index && editField === 'price'}
             <input
               id={`price-${index}`}
@@ -128,5 +152,10 @@
         </td>
       </tr>
     {/each}
+    <tr>
+      <td colspan="3" class="add-row">
+        <button on:click={addRow}>➕ Add Row</button>
+      </td>
+    </tr>
   </tbody>
 </table>
