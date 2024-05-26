@@ -6,6 +6,11 @@
   let editValue = '';
 
   const startEdit = (index, field) => {
+
+    if( editField != '' && editIndex != -1) {
+      saveEdit(editIndex, editField);
+    }
+    
     editIndex = index;
     editField = field;
     editValue = $games[index][field];
@@ -14,6 +19,7 @@
       const inputElement = document.getElementById(`${field}-${index}`);
       if (inputElement) {
         inputElement.focus();
+        inputElement.select(); // Ensure the text is selected for editing
       }
     }, 0);
   };
@@ -38,11 +44,14 @@
   const handleKeyDown = (event, index, field) => {
     if (event.key === 'Tab') {
       event.preventDefault();
-      console.log(`Tab pressed in field: ${field}, index: ${index}`);
-      
-      let nextElement;
+
+      saveEdit(index, field);
+
       if (field === 'title') {
-        nextElement = document.getElementById(`price-td-${index}`);
+        const nextElement = document.getElementById(`price-td-${index}`);
+        if (nextElement) {
+          nextElement.click();
+        }
       } else if (field === 'price') {
         if (index === $games.length - 1) {
           addRow();
@@ -52,20 +61,14 @@
               newElement.click();
             }
           }, 0);
-          return;
         } else {
-          nextElement = document.getElementById(`title-td-${index + 1}`);
+          const nextElement = document.getElementById(`title-td-${index + 1}`);
+          if (nextElement) {
+            nextElement.click();
+          }
         }
       }
-
-      if (nextElement) {
-        nextElement.click();
-      }
     }
-  };
-
-  const handleFocus = (event, index, field) => {
-    startEdit(index, field);
   };
 </script>
 
