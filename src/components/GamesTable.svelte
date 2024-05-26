@@ -6,7 +6,6 @@
   let editValue = '';
 
   const startEdit = (index, field) => {
-    
     editIndex = index;
     editField = field;
     editValue = $games[index][field];
@@ -20,13 +19,12 @@
     }, 0);
   };
 
-  const saveEdit = (index, field) => {
+  const saveEdit = (index, field, value) => {
     games.update(items => {
-      items[index][field] = editValue;
+      items[index][field] = value;
       return items;
     });
-    editIndex = -1;
-    editField = '';
+
   };
 
   const addRow = () => {
@@ -40,8 +38,8 @@
   const handleKeyDown = (event, index, field) => {
     if (event.key === 'Tab') {
       event.preventDefault();
-
-      saveEdit(index, field);
+      
+     // saveEdit(index, field, event.target.value);
 
       if (field === 'title') {
         const nextElement = document.getElementById(`price-td-${index}`);
@@ -65,6 +63,10 @@
         }
       }
     }
+  };
+
+  const handleBlur = (event, index, field) => {
+    saveEdit(index, field, event.target.value);
   };
 </script>
 
@@ -126,6 +128,7 @@
               id={`title-${index}`}
               type="text"
               bind:value={editValue}
+              on:blur={(e) => handleBlur(e, index, 'title')}
               on:keydown={(e) => handleKeyDown(e, index, 'title')}
             />
           {:else}
@@ -138,6 +141,7 @@
               id={`price-${index}`}
               type="number"
               bind:value={editValue}
+              on:blur={(e) => handleBlur(e, index, 'price')}
               on:keydown={(e) => handleKeyDown(e, index, 'price')}
             />
           {:else}
