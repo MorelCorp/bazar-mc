@@ -24,7 +24,6 @@
       items[index][field] = value;
       return items;
     });
-
   };
 
   const addRow = () => {
@@ -38,27 +37,39 @@
   const handleKeyDown = (event, index, field) => {
     if (event.key === 'Tab') {
       event.preventDefault();
-      
-     // saveEdit(index, field, event.target.value);
 
       if (field === 'title') {
-        const nextElement = document.getElementById(`price-td-${index}`);
-        if (nextElement) {
-          nextElement.click();
-        }
-      } else if (field === 'price') {
-        if (index === $games.length - 1) {
-          addRow();
-          setTimeout(() => {
-            const newElement = document.getElementById(`title-td-${$games.length - 1}`);
-            if (newElement) {
-              newElement.click();
-            }
-          }, 0);
+        if (event.shiftKey) {
+          const prevElement = document.getElementById(`price-td-${index - 1}`);
+          if (prevElement) {
+            prevElement.click();
+          }
         } else {
-          const nextElement = document.getElementById(`title-td-${index + 1}`);
+          const nextElement = document.getElementById(`price-td-${index}`);
           if (nextElement) {
             nextElement.click();
+          }
+        }
+      } else if (field === 'price') {
+        if (event.shiftKey) {
+          const prevElement = document.getElementById(`title-td-${index}`);
+          if (prevElement) {
+            prevElement.click();
+          }
+        } else {
+          if (index === $games.length - 1) {
+            addRow();
+            setTimeout(() => {
+              const newElement = document.getElementById(`title-td-${$games.length - 1}`);
+              if (newElement) {
+                newElement.click();
+              }
+            }, 0);
+          } else {
+            const nextElement = document.getElementById(`title-td-${index + 1}`);
+            if (nextElement) {
+              nextElement.click();
+            }
           }
         }
       }
@@ -75,30 +86,62 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 2rem;
+    table-layout: fixed;
   }
   th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #999; /* Darker border */
+    padding: 0;
     text-align: left;
+    position: relative;
+    height: 30px; /* Adjusted height */
   }
   th {
     background-color: #f2f2f2;
   }
+  th:last-child, td:last-child, th:first-child {
+    border: none; /* No border for the last column */
+  }
+  td.id-column {
+    width: 30px; /* Adjust the width to fit 3 characters */
+    text-align: center;
+    color: #777; /* Medium gray color */
+    font-size: 0.9em; /* Slightly smaller font size */
+    white-space: nowrap; /* Ensure no line breaks */
+  }
   .editable {
     cursor: pointer;
+    padding: 0;
+  }
+  .editable input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: inherit;
+    font-family: inherit;
+  }
+  .editable input:focus {
+    outline: 2px solid #0078d7;
   }
   .delete-button {
-    opacity: 0.5;
+    opacity: 0;
     transition: opacity 0.2s;
+    border: none; /* Remove border from the button */
+    background: none; /* Remove background from the button */
   }
-  .delete-button:hover {
+  tr:hover .delete-button {
     opacity: 1;
+  }
+  tr:hover td {
+    font-weight: bold;
   }
   .add-row {
     text-align: center;
   }
   .add-row button {
-    width: 100%;
+    width: calc(100% - 40px); /* Adjust width to exclude the trashcan column */
     padding: 10px;
     font-size: 16px;
     background-color: #f9f9f9;
@@ -114,6 +157,7 @@
 <table>
   <thead>
     <tr>
+      <th></th>
       <th>Game Name</th>
       <th>Price</th>
       <th></th>
@@ -122,6 +166,7 @@
   <tbody>
     {#each $games as game, index (index)}
       <tr>
+        <td class="id-column">{index + 1}</td>
         <td id={`title-td-${index}`} class="editable" on:click={() => startEdit(index, 'title')}>
           {#if editIndex === index && editField === 'title'}
             <input
