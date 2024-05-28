@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PDFPage, StandardFonts, rgb } from 'pdf-lib';
+  import { onMount } from 'svelte';
   import QRCode from 'qrcode';
 
   export let logoUrl: string = '/logo.png'; // Default logo path
@@ -10,100 +10,18 @@
 
   let qrCodeUrl: string;
 
-  // Generate QR code with vendor name, game name, ID, and price
-  QRCode.toDataURL(`${sellerName},${gameName},${stickerNumber},${price}`)
-    .then(url => {
-      qrCodeUrl = url;
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  const generateQRCode = () => {
+    QRCode.toDataURL(`${sellerName},${gameName},${stickerNumber},${price}`)
+      .then(url => {
+        qrCodeUrl = url;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
-  export async function drawSticker(page: PDFPage, x: number, y: number, game: any, seller: any, stickerNumber: number) {
-    const font = await page.doc.embedFont(StandardFonts.Helvetica);
-
-    // Draw border
-    page.drawRectangle({
-      x,
-      y,
-      width: 200,
-      height: 150,
-      borderColor: rgb(0, 0, 0),
-      borderWidth: 2,
-    });
-
-    // Draw logo
-    const logoImageBytes = await fetch(logoUrl).then(res => res.arrayBuffer());
-    const logoImage = await page.doc.embedPng(logoImageBytes);
-    page.drawImage(logoImage, {
-      x: x + 80,
-      y: y + 110,
-      width: 40,
-      height: 40,
-    });
-
-    // Draw seller name
-    page.drawText(`Nom du vendeur: ${seller.name}`, {
-      x: x + 10,
-      y: y + 130,
-      size: 10,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // Draw game name
-    page.drawText(`Nom du jeu: ${game.title}`, {
-      x: x + 10,
-      y: y + 110,
-      size: 10,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // Draw price
-    page.drawText(`Prix: $${game.price}`, {
-      x: x + 10,
-      y: y + 90,
-      size: 10,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // Draw sticker number
-    page.drawText(`#${stickerNumber}`, {
-      x: x + 10,
-      y: y + 130,
-      size: 12,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // Draw notice text
-    page.drawText("(Montant arrondi s.v.p.)", {
-      x: x + 10,
-      y: y + 70,
-      size: 8,
-      font,
-      color: rgb(0, 0, 0),
-    });
-    page.drawText("2$ sera prélevé de la vente de chacun des jeux au profit de Jeux de Société Qc.", {
-      x: x + 10,
-      y: y + 60,
-      size: 8,
-      font,
-      color: rgb(0, 0, 0),
-    });
-
-    // Draw QR code
-    const qrImageBytes = await fetch(qrCodeUrl).then(res => res.arrayBuffer());
-    const qrImage = await page.doc.embedPng(qrImageBytes);
-    page.drawImage(qrImage, {
-      x: x + 160,
-      y: y + 110,
-      width: 40,
-      height: 40,
-    });
-  }
+  // Regenerate QR code when inputs change
+  $: generateQRCode();
 </script>
 
 <style>

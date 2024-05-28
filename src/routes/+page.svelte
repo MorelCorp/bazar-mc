@@ -7,6 +7,7 @@
   import Sticker from '../components/Sticker.svelte';
   import { user } from '../stores/user';
   import { games } from '../stores/games';
+  import { onMount } from 'svelte';
 
   const resetAllData = () => {
     if (confirm('Are you sure you want to reset all data?')) {
@@ -19,6 +20,19 @@
   // const saveAsPDF = () => {
   //   generateStickers();
   // };
+
+  // Reactive statement to regenerate QR codes when seller name or email changes
+  $: regenerateQRCodes();
+
+  function regenerateQRCodes() {
+
+    console.log(`Regenerating QR Code`);
+
+    $games = $games.map((game, index) => ({
+      ...game,
+      qrCode: `${$user.name},${game.title},${index + 1},${game.price}`
+    }));
+  }
 </script>
 
 <main>
