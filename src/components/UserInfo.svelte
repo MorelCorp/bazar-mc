@@ -2,6 +2,11 @@
     import { user } from '../stores/user';
     import { get } from 'svelte/store';
   
+    import { setupI18n, _ } from '../i18n';
+  
+    // Initialize i18n
+    setupI18n();
+
     let name = get(user).name;
     let email = get(user).email;
   
@@ -28,11 +33,11 @@
   
   <div class="user-info">
     <label>
-      Name:
+      {$_('sellerName')}:
       <input type="text" bind:value={name} on:input={updateName} />
     </label>
     <label>
-      Email:
+      {$_('email')}:
       <input type="email" bind:value={email} on:input={updateEmail} />
     </label>
   </div>

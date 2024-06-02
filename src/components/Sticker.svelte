@@ -1,10 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import QRCode from 'qrcode';
-  import { setupI18n, _, lang } from '../i18n';
-  import { Languages } from '../languages';
-  import { locale } from 'svelte-i18n';
-
+  import { setupI18n, _ } from '../i18n';
+  
   export let logoUrl: string = '/logo.png';
   export let sellerName: string;
   export let gameName: string;
@@ -112,8 +109,8 @@
       <strong>{$_('gameName')}</strong> {gameName}
     </div>
     <div>
-      <em>{$_('note')}</em><br />
-      {$_('fee')}
+      <em>{$_('stickerNote')}</em><br />
+      {$_('stickerFee')}
     </div>
   </div>
   <div class="price">{price}$</div>

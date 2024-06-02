@@ -1,6 +1,11 @@
 <script lang="ts">
   import { games } from '../stores/games';
 
+  import { setupI18n, _ } from '../i18n';
+  
+  // Initialize i18n
+  setupI18n();
+
   let editIndex = -1;
   let editField = '';
   let editValue = '';
@@ -195,8 +200,8 @@
   <thead>
     <tr>
       <th></th>
-      <th class="game-name-column">Game Name</th>
-      <th class="price-column">Price</th>
+      <th class="game-name-column">{$_('gameName')}</th>
+      <th class="price-column">{$_('price')}</th>
       <th></th>
     </tr>
   </thead>
@@ -237,7 +242,7 @@
     {/each}
     <tr>
       <td colspan="3" class="add-row">
-        <button on:click={addRow}>➕ Add Row</button>
+        <button on:click={addRow}>➕</button>
       </td>
     </tr>
   </tbody>

@@ -1,15 +1,19 @@
 <script>
-    export let title = "Welcome to the Bazaar Entry";
-  </script>
+  import { setupI18n, _ } from '../i18n';
   
-  <header>
-    <h1>{title}</h1>
-  </header>
-  
-  <style>
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-  </style>
-  
+  // Initialize i18n
+  setupI18n();
+
+  export let title = "Welcome to the Bazaar Entry";
+</script>
+
+<header>
+  <h1>{title}</h1>
+</header>
+
+<style>
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+</style>
