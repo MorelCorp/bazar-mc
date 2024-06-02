@@ -1,11 +1,6 @@
 import { writable } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
-
-interface Game {
-    title: string;
-    price: number;
-    sold: boolean;
-}
+import type { Game } from '../types';
 
 const initialGames: Game[] = [];
 
