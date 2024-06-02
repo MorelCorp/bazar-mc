@@ -147,6 +147,10 @@
   .editable input:focus {
     outline: 2px solid #0078d7;
   }
+  .delete-column {
+    text-align: center;
+    width: 40px;
+  }
   .delete-button {
     opacity: 0;
     transition: opacity 0.2s;
@@ -155,6 +159,9 @@
   }
   tr:hover .delete-button {
     opacity: 1;
+  }
+  td:hover .delete-button {
+    font-size: 1.2em; /* Adjust font size as needed */
   }
   tr:hover td {
     font-weight: bold;
@@ -179,10 +186,9 @@
     background-color: #f2f2f2;
   }
   td:last-child, th:last-child {
-  border: none;
-  background: none;
-}
-
+    border: none;
+    background: none;
+  }
 </style>
 
 <table>
@@ -224,7 +230,7 @@
             ${game.price}
           {/if}
         </td>
-        <td>
+        <td class="delete-column">
           <button on:click={() => removeRow(index)} class="delete-button">🗑️</button>
         </td>
       </tr>
