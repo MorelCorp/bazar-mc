@@ -1,10 +1,6 @@
 import { writable } from 'svelte/store';
 import { persisted } from 'svelte-local-storage-store';
-
-interface User {
-  name: string;
-  email: string;
-}
+import type { User } from '../types';
 
 const initialUser: User = {
   name: '',

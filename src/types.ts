@@ -4,3 +4,7 @@ export interface Game {
     sold: boolean;
   }
   
+  export interface User {
+    name: string;
+    email: string;
+  }

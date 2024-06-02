@@ -1,8 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import QRCode from 'qrcode';
+  import { setupI18n, _, lang } from '../i18n';
+  import { Languages } from '../languages';
+  import { locale } from 'svelte-i18n';
 
-  export let logoUrl: string = '/logo.png'; // Default logo path
+  export let logoUrl: string = '/logo.png';
   export let sellerName: string;
   export let gameName: string;
   export let price: number;
@@ -19,6 +22,9 @@
         console.error(err);
       });
   };
+
+  // Initialize i18n
+  setupI18n();
 
   // Regenerate QR code when inputs change
   $: generateQRCode();
@@ -100,14 +106,14 @@
   </div>
   <div class="sticker-content">
     <div>
-      <strong>Nom du vendeur :</strong> {sellerName}
+      <strong>{$_('sellerName')}</strong> {sellerName}
     </div>
     <div>
-      <strong>Nom du jeu :</strong> {gameName}
+      <strong>{$_('gameName')}</strong> {gameName}
     </div>
     <div>
-      <em>(Montant arrondi s.v.p.)</em><br />
-      2$ sera prélevé de la vente de chacun des jeux au profit de Jeux de Société Qc.
+      <em>{$_('note')}</em><br />
+      {$_('fee')}
     </div>
   </div>
   <div class="price">{price}$</div>
