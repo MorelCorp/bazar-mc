@@ -7,7 +7,7 @@
   import Sticker from '../components/Sticker.svelte';
   import { user } from '../stores/user';
   import { games } from '../stores/games';
-  import { onMount } from 'svelte';
+
 
   const resetAllData = () => {
     if (confirm('Are you sure you want to reset all data?')) {
@@ -36,6 +36,10 @@
 </script>
 
 <main>
+
+
+
+
   <div class="top-right">
     <button on:click={resetAllData}>Reset</button>
     <!-- <button on:click={saveAsPDF}>Save as PDF</button> -->

@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Skeleton styles */
+@import '@skeletonlabs/skeleton/css/skeleton.css';
