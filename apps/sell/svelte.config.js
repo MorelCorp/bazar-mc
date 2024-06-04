@@ -1,5 +1,10 @@
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,7 +19,8 @@ const config = {
 		adapter: adapter(),
 		alias: {
             $lib: 'src/lib',
-            $routes: 'src/routes'
+            $routes: 'src/routes',
+			'@shared': path.resolve(__dirname, '../../shared')
 		}
 	}
 };

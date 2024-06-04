@@ -1,7 +1,23 @@
 {
-  "extends": "./.svelte-kit/tsconfig.json",
-  "compilerOptions": {
-    "types": ["svelte"]
-  },
-  "include": ["src/**/*", "src/node_modules/@types"]
-}
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "lib": ["DOM", "ESNext"],
+      "strict": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": ".",
+      "paths": {
+        "@shared/*": ["shared/*"]
+      }
+    },
+    "include": [
+      "apps/sell/src",
+      "apps/organize/src",
+      "shared"
+    ]
+  }
+  

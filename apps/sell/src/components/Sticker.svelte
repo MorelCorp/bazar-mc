@@ -1,6 +1,6 @@
 <script lang="ts">
   import QRCode from 'qrcode';
-  import { setupI18n, _ } from '../i18n';
+  import { setupI18n, _ } from '@shared/i18n';
   
   export let logoUrl: string = '/logo.png';
   export let sellerName: string;

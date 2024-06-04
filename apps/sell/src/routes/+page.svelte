@@ -5,8 +5,8 @@
   import GamesTable from '../components/GamesTable.svelte';
   // import { generateStickers } from '../components/GenerateStickers.svelte';
   import Sticker from '../components/Sticker.svelte';
-  import { user } from '../stores/user';
-  import { games } from '../stores/games';
+  import { user } from '@shared/stores/user';
+  import { games } from '@shared/stores/games';
 
 
   const resetAllData = () => {

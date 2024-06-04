@@ -1,8 +1,8 @@
 <script>
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { get } from 'svelte/store';
-  import { games } from '../stores/games';
-  import { user } from '../stores/user';
+  import { games } from '@shared/stores/games';
+  import { user } from '@shared/stores/user';
   import { drawSticker } from './Sticker.svelte';
 
   export async function generateStickers() {

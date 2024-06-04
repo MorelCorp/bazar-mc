@@ -1,5 +1,5 @@
 <script>
-  import { setupI18n, _ } from '../i18n';
+  import { setupI18n, _ } from '@shared/i18n';
   
   // Initialize i18n
   setupI18n();

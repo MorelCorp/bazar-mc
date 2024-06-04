@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { init, register, locale, _ } from 'svelte-i18n';
-import { Languages } from './languages'; // Assuming you have an enum for languages
+import { Languages } from '@shared/languages'; // Assuming you have an enum for languages
 
 // Initialize the writable store for the language
 export const lang = writable(Languages.FR);
@@ -19,7 +19,7 @@ export const setupI18n = () => {
 };
 
 // Register translations (assuming JSON files for simplicity)
-register(Languages.EN, () => import('./locales/en.json'));
-register(Languages.FR, () => import('./locales/fr.json'));
+register(Languages.EN, () => import('@shared/locales/en.json'));
+register(Languages.FR, () => import('@shared/locales/fr.json'));
 
 export { _, locale };

@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import type { Game } from '../types';
+import type { Game } from '@shared/types';
 
 export function generateStickers(games: Game[]) {
   const doc = new jsPDF();
