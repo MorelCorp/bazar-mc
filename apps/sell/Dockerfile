@@ -1,37 +1,45 @@
-# Stage 1: Build
+# Use an official Node.js image as a base
 FROM node:20-alpine AS build
 
-WORKDIR /usr/src/app/sell
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Copy package files and install dependencies
-COPY apps/sell/package*.json ./
+# Copy package.json and package-lock.json
+COPY apps/sell/package*.json ./sell/
+COPY shared/package*.json ./shared/
+
+# Install dependencies for the Sell app
+WORKDIR /usr/src/app/sell
 RUN npm install
 
-# Copy shared and app directories
+# Copy the shared directory
 COPY shared /usr/src/app/shared
+
+# Copy the Sell app's source code
 COPY apps/sell /usr/src/app/sell
 
-# Ensure @sveltejs/adapter-node is installed
-RUN npm install @sveltejs/adapter-node
+# Ensure paths in the shared tsconfig.json are correct
+RUN sed -i 's#"extends": "../tsconfig.json"#"extends": "/usr/src/app/tsconfig.json"#' /usr/src/app/shared/tsconfig.json
 
-# Build the SvelteKit app
+# Build the Sell app
 RUN npm run build
 
-# Stage 2: Run
-FROM node:20-alpine AS run
+# Stage 2: Create the final image with only the necessary files
+FROM node:20-alpine
 
-WORKDIR /usr/src/app/sell
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Copy the build output and shared directory from the build stage
+# Copy the build output and necessary files from the build stage
 COPY --from=build /usr/src/app/sell/build ./build
-COPY --from=build /usr/src/app/shared /usr/src/app/shared
+COPY --from=build /usr/src/app/shared /usr/src/shared
+COPY --from=build /usr/src/app/sell/package*.json ./
 
 # Install production dependencies
-COPY apps/sell/package*.json ./
-RUN npm install --production
+RUN npm install --only=production
 
-# Expose the port the app runs on
-EXPOSE 5173
+# Expose the port that the app runs on
+EXPOSE 3000
 
-# Start the app
-CMD ["npm", "run", "preview"]
+# Run the built app
+CMD ["node", "build"]
