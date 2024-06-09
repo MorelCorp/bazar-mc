@@ -1,19 +1,21 @@
 <script lang="ts">
+  
+  import type { Game } from '@shared/types';
   import { games } from '@shared/stores/games';
-
   import { setupI18n, _ } from '@shared/i18n';
   
   // Initialize i18n
   setupI18n();
 
   let editIndex = -1;
-  let editField = '';
-  let editValue = '';
+  let editField: keyof Game = 'title';
+  let editValue: string | number | boolean = '';
 
-  const startEdit = (index: number, field: string) => {
+  const startEdit = (index: number, field: keyof Game) => {
     editIndex = index;
     editField = field;
-    editValue = $games[index][field]; // Access the store directly with $games
+
+    editValue = $games[index][field] as string | number | boolean;; // Access the store directly with $games
 
     setTimeout(() => {
       const inputElement = document.getElementById(`${field}-${index}`) as HTMLInputElement;
@@ -24,9 +26,9 @@
     }, 0);
   };
 
-  const saveEdit = (index: number, field: string, value: string | number) => {
-    games.update(items => {
-      items[index][field] = value;
+  const saveEdit = (index: number, field: keyof Game, value: Game[keyof Game]) => {
+    games.update((items: Game[]) => {
+      (items[index][field] as typeof value) = value;
       return items;
     });
   };
@@ -39,7 +41,7 @@
     games.update(current => current.filter((_, i) => i !== index));
   };
 
-  const handleKeyDown = (event: KeyboardEvent, index: number, field: string) => {
+  const handleKeyDown = (event: KeyboardEvent, index: number, field: keyof Game) => {
     if (event.key === 'Tab') {
       event.preventDefault();
 
@@ -81,8 +83,10 @@
     }
   };
 
-  const handleBlur = (event: FocusEvent, index: number, field: string) => {
-    saveEdit(index, field, (event.target as HTMLInputElement).value);
+  const handleBlur = (event: FocusEvent, index: number, field: keyof Game) => {
+    const value = (event.target as HTMLInputElement).value;
+    const typedValue: Game[keyof Game] = field === 'price' ? Number(value) : (value as Game[keyof Game]);
+    saveEdit(index, field, typedValue);
   };
 </script>
 
@@ -92,7 +96,7 @@
     margin-right: auto;
     width: 80%;
     border-collapse: collapse;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem; /* Adjusted margin to bring button closer */
   }
   th, td {
     border: 1px solid #999;
@@ -177,10 +181,12 @@
   }
   .add-row {
     text-align: center;
+    margin-top: -0.5rem; /* Adjust margin to bring button closer */
   }
   .add-row button {
-    width: calc(100% - 40px);
-    padding: 10px;
+    width: 40px; /* Adjusted size for round shape */
+    height: 40px; /* Adjusted size for round shape */
+    border-radius: 50%; /* Round shape */
     font-size: 16px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -240,10 +246,8 @@
         </td>
       </tr>
     {/each}
-    <tr>
-      <td colspan="3" class="add-row">
-        <button on:click={addRow}>➕</button>
-      </td>
-    </tr>
   </tbody>
 </table>
+<div class="add-row">
+  <button on:click={addRow}>➕</button>
+</div>

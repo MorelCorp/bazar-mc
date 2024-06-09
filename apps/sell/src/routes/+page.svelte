@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   export let form;
   import Header from '../components/Header.svelte';
   import UserInfo from '../components/UserInfo.svelte';

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
   import { get } from 'svelte/store';
   import { games } from '@shared/stores/games';

@@ -4,4 +4,4 @@ import type { Game } from '@shared/types';
 
 const initialGames: Game[] = [];
 
-export const games = persisted('games', initialGames);
+export const games = persisted<Game[]>('games', initialGames);

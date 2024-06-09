@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { user } from '@shared/stores/user';
     import { get } from 'svelte/store';
   
