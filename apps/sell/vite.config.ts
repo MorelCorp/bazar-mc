@@ -10,12 +10,12 @@ export default defineConfig({
   plugins: [sveltekit()],
   resolve: {
     alias: {
-      '@shared': path.resolve(__dirname, '../../shared')
-    }
+      '@shared': path.resolve(__dirname, '../../shared'),
+    },
   },
   server: {
     fs: {
-      allow: ['../../shared']
-    }
-  }
+      allow: ['../../shared'],
+    },
+  },
 });

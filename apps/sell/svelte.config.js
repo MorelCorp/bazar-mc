@@ -10,9 +10,9 @@ const config = {
     alias: {
       $lib: 'src/lib',
       $routes: 'src/routes',
-      '@shared': resolve('../../shared')
-    }
-  }
+      '@shared': resolve('../../shared'),
+    },
+  },
 };
 
 export default config;

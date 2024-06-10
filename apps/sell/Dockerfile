@@ -1,45 +1,38 @@
-# Use an official Node.js image as a base
+# Stage 1: Build the application
 FROM node:20-alpine AS build
 
-# Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/bazaar-mc
 
-# Copy package.json and package-lock.json
-COPY apps/sell/package*.json ./sell/
+# Copy shared package.json and install dependencies
 COPY shared/package*.json ./shared/
+RUN npm install --prefix ./shared
 
-# Install dependencies for the Sell app
-WORKDIR /usr/src/app/sell
-RUN npm install
+# Copy sell package.json and install dependencies
+COPY apps/sell/package*.json ./apps/sell/
+RUN npm install --prefix ./apps/sell
 
-# Copy the shared directory
-COPY shared /usr/src/app/shared
+# Copy shared and sell source code
+COPY shared /usr/src/bazaar-mc/shared
+COPY apps/sell /usr/src/bazaar-mc/apps/sell
 
-# Copy the Sell app's source code
-COPY apps/sell /usr/src/app/sell
+COPY tsconfig.json ./
 
-# Ensure paths in the shared tsconfig.json are correct
-RUN sed -i 's#"extends": "../tsconfig.json"#"extends": "/usr/src/app/tsconfig.json"#' /usr/src/app/shared/tsconfig.json
+# Update tsconfig.json paths for Docker environment
+# RUN sed -i 's#"\.\./tsconfig.json"#"/usr/src/bazaar-mc/tsconfig.json"#g' /usr/src/bazaar-mc/apps/sell/tsconfig.json
 
 # Build the Sell app
+WORKDIR /usr/src/bazaar-mc/apps/sell
 RUN npm run build
 
 # Stage 2: Create the final image with only the necessary files
 FROM node:20-alpine
 
-# Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/bazaar-mc/apps/sell
 
-# Copy the build output and necessary files from the build stage
-COPY --from=build /usr/src/app/sell/build ./build
-COPY --from=build /usr/src/app/shared /usr/src/shared
-COPY --from=build /usr/src/app/sell/package*.json ./
+COPY --from=build /usr/src/bazaar-mc/apps/sell/build ./build
+COPY --from=build /usr/src/bazaar-mc/shared /usr/src/bazaar-mc/shared
+COPY --from=build /usr/src/bazaar-mc/apps/sell/package*.json ./
 
-# Install production dependencies
-RUN npm install --only=production
-
-# Expose the port that the app runs on
 EXPOSE 3000
 
-# Run the built app
 CMD ["node", "build"]

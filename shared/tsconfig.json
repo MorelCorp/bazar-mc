@@ -1,13 +1,11 @@
-
-  {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-      "composite": true,
-      "declaration": true,
-      "emitDeclarationOnly": true,
-      "declarationMap": true,
-      "skipLibCheck": true
-    },
-    "include": ["./**/*"]
-  }
-  
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "skipLibCheck": true
+  },
+  "include": ["./**/*"]
+}
