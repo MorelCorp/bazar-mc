@@ -15,10 +15,14 @@ RUN npm install --prefix ./apps/sell
 COPY shared /usr/src/bazaar-mc/shared
 COPY apps/sell /usr/src/bazaar-mc/apps/sell
 
-COPY tsconfig.json .
+COPY tsconfig.json ./
 
-# Print the contents of the current directory
-RUN ls -R ./
+# Update tsconfig.json paths for Docker environment
+RUN sed -i 's#"\.\./tsconfig.json"#"/usr/src/bazaar-mc/tsconfig.json"#g' /usr/src/bazaar-mc/apps/sell/tsconfig.json
+
+# Debugging: List directories and files to verify paths
+RUN ls -R /usr/src/bazaar-mc/shared
+RUN ls -R /usr/src/bazaar-mc/apps/sell
 
 # Build the Sell app
 WORKDIR /usr/src/bazaar-mc/apps/sell
@@ -29,7 +33,9 @@ FROM node:20-alpine
 
 WORKDIR /usr/src/bazaar-mc/apps/sell
 
+# Copy the built application and node_modules from the build stage
 COPY --from=build /usr/src/bazaar-mc/apps/sell/build ./build
+COPY --from=build /usr/src/bazaar-mc/apps/sell/node_modules ./node_modules
 COPY --from=build /usr/src/bazaar-mc/shared /usr/src/bazaar-mc/shared
 COPY --from=build /usr/src/bazaar-mc/apps/sell/package*.json ./
 
