@@ -15,10 +15,10 @@ RUN npm install --prefix ./apps/sell
 COPY shared /usr/src/bazaar-mc/shared
 COPY apps/sell /usr/src/bazaar-mc/apps/sell
 
-COPY tsconfig.json ./
+COPY tsconfig.json .
 
-# Update tsconfig.json paths for Docker environment
-# RUN sed -i 's#"\.\./tsconfig.json"#"/usr/src/bazaar-mc/tsconfig.json"#g' /usr/src/bazaar-mc/apps/sell/tsconfig.json
+# Print the contents of the current directory
+RUN ls -R ./
 
 # Build the Sell app
 WORKDIR /usr/src/bazaar-mc/apps/sell
