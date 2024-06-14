@@ -1,0 +1,11 @@
+.git*
+**/node_modules
+.eslint*
+.prettier*
+.vscode
+README.md
+**/Dockerfile*
+**/.dockerignore
+**/.svelte-kit
+**/build
+

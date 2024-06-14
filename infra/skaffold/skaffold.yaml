@@ -1,0 +1,15 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: bazaar-mc
+build:
+  artifacts:
+    - image: your-docker-repo/sell-app
+      context: ../../apps/sell
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - ../../infra/k8s/sell-deployment.yaml
+      - ../../infra/k8s/sell-service.yaml
