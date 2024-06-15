@@ -90,8 +90,8 @@
   };
 </script>
 
-<style>
-  table {
+
+   <!-- table {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
@@ -199,55 +199,59 @@
   td:last-child, th:last-child {
     border: none;
     background: none;
-  }
+  }  -->
+
+<style>
 </style>
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th class="game-name-column">{$_('gameName')}</th>
-      <th class="price-column">{$_('price')}</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {#each $games as game, index (index)}
+<div class="table-container">
+  <table class="table table-compact table-interactive">
+    <thead>
       <tr>
-        <td class="id-column">{index + 1}</td>
-        <td id={`title-td-${index}`} class="editable game-name-column" on:click={() => startEdit(index, 'title')}>
-          {#if editIndex === index && editField === 'title'}
-            <input
-              id={`title-${index}`}
-              type="text"
-              bind:value={editValue}
-              on:blur={(e) => handleBlur(e, index, 'title')}
-              on:keydown={(e) => handleKeyDown(e, index, 'title')}
-            />
-          {:else}
-            {game.title}
-          {/if}
-        </td>
-        <td id={`price-td-${index}`} class="editable price-column" on:click={() => startEdit(index, 'price')}>
-          {#if editIndex === index && editField === 'price'}
-            <input
-              id={`price-${index}`}
-              type="number"
-              bind:value={editValue}
-              on:blur={(e) => handleBlur(e, index, 'price')}
-              on:keydown={(e) => handleKeyDown(e, index, 'price')}
-            />
-          {:else}
-            ${game.price}
-          {/if}
-        </td>
-        <td class="delete-column">
-          <button on:click={() => removeRow(index)} class="delete-button">🗑️</button>
-        </td>
+        <th></th>
+        <th class="game-name-column">{$_('gameName')}</th>
+        <th class="price-column">{$_('price')}</th>
+        <th></th>
       </tr>
-    {/each}
-  </tbody>
-</table>
-<div class="add-row">
-  <button on:click={addRow}>➕</button>
+    </thead>
+    <tbody>
+      {#each $games as game, index (index)}
+        <tr>
+          <td class="id-column">{index + 1}</td>
+          <td id={`title-td-${index}`} class="editable game-name-column" on:click={() => startEdit(index, 'title')}>
+            {#if editIndex === index && editField === 'title'}
+              <input
+                id={`title-${index}`}
+                type="text"
+                bind:value={editValue}
+                on:blur={(e) => handleBlur(e, index, 'title')}
+                on:keydown={(e) => handleKeyDown(e, index, 'title')}
+              />
+            {:else}
+              {game.title}
+            {/if}
+          </td>
+          <td id={`price-td-${index}`} class="editable price-column" on:click={() => startEdit(index, 'price')}>
+            {#if editIndex === index && editField === 'price'}
+              <input
+                id={`price-${index}`}
+                type="number"
+                bind:value={editValue}
+                on:blur={(e) => handleBlur(e, index, 'price')}
+                on:keydown={(e) => handleKeyDown(e, index, 'price')}
+              />
+            {:else}
+              ${game.price}
+            {/if}
+          </td>
+          <td class="delete-column">
+            <button on:click={() => removeRow(index)} class="delete-button">🗑️</button>
+          </td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+  <div class="add-row">
+    <button on:click={addRow}>➕</button>
+  </div>
 </div>

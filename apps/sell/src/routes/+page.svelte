@@ -7,6 +7,8 @@
   import Sticker from '../components/Sticker.svelte';
   import { user } from '@shared/stores/user';
   import { games } from '@shared/stores/games';
+  
+
 
 
   const resetAllData = () => {
@@ -38,10 +40,8 @@
 <main>
 
 
-
-
   <div class="top-right">
-    <button on:click={resetAllData}>Reset</button>
+    <button class="btn variant-filled" on:click={resetAllData}>Reset</button>
     <!-- <button on:click={saveAsPDF}>Save as PDF</button> -->
   </div>
   <Header title="Bazaar Entry" />

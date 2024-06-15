@@ -13,6 +13,9 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../../shared'),
     },
   },
+  ssr: {
+    noExternal: ['@skeletonlabs/skeleton'],
+  },
   server: {
     fs: {
       allow: ['../../shared'],

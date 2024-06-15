@@ -1,6 +1,7 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
-/* Import Skeleton styles */
-@import '@skeletonlabs/skeleton/css/skeleton.css';
+/* Include any additional styles you need */
