@@ -1,9 +1,8 @@
 <script lang="ts">
-  
   import type { Game } from '@shared/types';
   import { games } from '@shared/stores/games';
   import { setupI18n, _ } from '@shared/i18n';
-  
+
   // Initialize i18n
   setupI18n();
 
@@ -14,9 +13,8 @@
   const startEdit = (index: number, field: keyof Game) => {
     editIndex = index;
     editField = field;
-
-    editValue = $games[index][field] as string | number | boolean;; // Access the store directly with $games
-
+    editValue = $games[index][field] as string | number | boolean;
+    
     setTimeout(() => {
       const inputElement = document.getElementById(`${field}-${index}`) as HTMLInputElement;
       if (inputElement) {
@@ -90,45 +88,53 @@
   };
 </script>
 
+<style>
+  .table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
 
-   <!-- table {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    border-collapse: collapse;
-    margin-bottom: 1rem; /* Adjusted margin to bring button closer */
+  tbody {
+    padding-top: 0rem;
+    padding-bottom: 0rem;
   }
-  th, td {
-    border: 1px solid #999;
-    padding: 0;
-    text-align: left;
-    position: relative;
-    height: 30px;
+
+  td {
+    height: auto; /* Ensure cells are auto height */
+    vertical-align: middle; /* Center text vertically */
   }
-  th {
-    background-color: black;
-    color: white;
-    text-align: center;
+
+  tr {
+    height: auto; /* Ensure rows are auto height */
   }
-  th.game-name-column, td.game-name-column {
-    width: 80%;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+  .input-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
-  th.price-column, td.price-column {
-    width: 10ch;
-    text-align: center;
-    white-space: nowrap;
-  }
-  td:first-child, th:first-child {
+
+  .input-field {
+    flex: 1;
+    height: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2px; /* Add minimal padding to make it a bit taller than the text */
     border: none;
-    background: none;
+    outline: none;
   }
-  td.id-column {
-    width: 30px;
-    height: 30px;
+
+  .id-column-wrapper {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .id-column {
+    width: 30px; /* Set a fixed width for the ID column */
+    height: 30px; /* Ensure it is round */
     text-align: center;
     color: white;
     background-color: darkgray;
@@ -136,76 +142,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8em; /* Adjust font size as needed */
-    margin: 0 auto; /* Center the circle within the cell */
+    margin: auto; /* Center the ID column within the cell */
   }
-  .editable {
-    cursor: pointer;
-    padding: 0;
-  }
-  .editable input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-size: inherit;
-    font-family: inherit;
-  }
-  .editable input:focus {
-    outline: 2px solid #0078d7;
-  }
-  .delete-column {
-    text-align: center;
-    width: 40px;
-  }
-  .delete-button {
-    opacity: 0;
-    transition: opacity 0.2s;
-    border: none;
-    background: none;
-  }
-  tr:hover .delete-button {
-    opacity: 1;
-  }
-  td:hover .delete-button {
-    font-size: 1.2em; /* Adjust font size as needed */
-  }
-  tr:hover td {
-    font-weight: bold;
-  }
-  tr:hover .id-column {
-    background-color: #333; /* Very dark color */
-    font-size: 1em;
-  }
-  .add-row {
-    text-align: center;
-    margin-top: -0.5rem; /* Adjust margin to bring button closer */
-  }
-  .add-row button {
-    width: 40px; /* Adjusted size for round shape */
-    height: 40px; /* Adjusted size for round shape */
-    border-radius: 50%; /* Round shape */
-    font-size: 16px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  .add-row button:hover {
-    background-color: #f2f2f2;
-  }
-  td:last-child, th:last-child {
-    border: none;
-    background: none;
-  }  -->
 
-<style>
+  .table tbody td {
+    padding: 4px;
+}
+
+
 </style>
 
 <div class="table-container">
-  <table class="table table-compact table-interactive">
+  <table class="table table-interactive">
+    <colgroup>
+      <col style="width: 40px;" />  <!-- Fixed width for ID column -->
+      <col style="width: auto;" />  <!-- Flexible width for name column -->
+      <col style="width: 100px;" /> <!-- Fixed width for price column -->
+      <col style="width: 40px;" />  <!-- Fixed width for delete column -->
+    </colgroup>
     <thead>
       <tr>
         <th></th>
@@ -217,41 +171,49 @@
     <tbody>
       {#each $games as game, index (index)}
         <tr>
-          <td class="id-column">{index + 1}</td>
+          <td class="id-column-wrapper">
+            <div class="id-column">{index + 1}</div>
+          </td>
           <td id={`title-td-${index}`} class="editable game-name-column" on:click={() => startEdit(index, 'title')}>
             {#if editIndex === index && editField === 'title'}
-              <input
-                id={`title-${index}`}
-                type="text"
-                bind:value={editValue}
-                on:blur={(e) => handleBlur(e, index, 'title')}
-                on:keydown={(e) => handleKeyDown(e, index, 'title')}
-              />
+              <div class="input-wrapper">
+                <input
+                  class="input-field"
+                  id={`title-${index}`}
+                  type="text"
+                  bind:value={editValue}
+                  on:blur={(e) => handleBlur(e, index, 'title')}
+                  on:keydown={(e) => handleKeyDown(e, index, 'title')}
+                />
+              </div>
             {:else}
               {game.title}
             {/if}
           </td>
           <td id={`price-td-${index}`} class="editable price-column" on:click={() => startEdit(index, 'price')}>
             {#if editIndex === index && editField === 'price'}
-              <input
-                id={`price-${index}`}
-                type="number"
-                bind:value={editValue}
-                on:blur={(e) => handleBlur(e, index, 'price')}
-                on:keydown={(e) => handleKeyDown(e, index, 'price')}
-              />
+              <div class="input-wrapper">
+                <input
+                  class="input-field"
+                  id={`price-${index}`}
+                  type="number"
+                  bind:value={editValue}
+                  on:blur={(e) => handleBlur(e, index, 'price')}
+                  on:keydown={(e) => handleKeyDown(e, index, 'price')}
+                />
+              </div>
             {:else}
               ${game.price}
             {/if}
           </td>
           <td class="delete-column">
-            <button on:click={() => removeRow(index)} class="delete-button">🗑️</button>
+            <button on:click={() => removeRow(index)} class="btn p-0 delete-button">🗑️</button>
           </td>
         </tr>
       {/each}
     </tbody>
   </table>
   <div class="add-row">
-    <button on:click={addRow}>➕</button>
+    <button class="btn" on:click={addRow}>➕</button>
   </div>
 </div>
