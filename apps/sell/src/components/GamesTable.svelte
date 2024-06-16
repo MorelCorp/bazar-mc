@@ -2,6 +2,7 @@
   import type { Game } from '@shared/types';
   import { games } from '@shared/stores/games';
   import { setupI18n, _ } from '@shared/i18n';
+  import { onMount } from 'svelte';
 
   // Initialize i18n
   setupI18n();
@@ -86,7 +87,22 @@
     const typedValue: Game[keyof Game] = field === 'price' ? Number(value) : (value as Game[keyof Game]);
     saveEdit(index, field, typedValue);
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    const clickedInside = (event.target as HTMLElement).closest('.table-container');
+    if (!clickedInside) {
+      editIndex = -1;
+    }
+  };
+
+  onMount(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  });
 </script>
+
 
 <style>
   .table {
@@ -94,11 +110,6 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-  }
-
-  tbody {
-    padding-top: 0rem;
-    padding-bottom: 0rem;
   }
 
   td {
