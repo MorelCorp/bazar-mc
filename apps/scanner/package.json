@@ -1,0 +1,48 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+	"dev": "vite dev",
+	"build": "vite build",
+	"test": "",
+	"preview": "vite preview",
+	"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+	"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+  "devDependencies": {
+		"@babel/core": "^7.24.5",
+		"@babel/plugin-transform-typescript": "^7.24.5",
+		"@babel/preset-env": "^7.24.5",
+		"@skeletonlabs/skeleton": "^2.10.0",
+		"@skeletonlabs/tw-plugin": "^0.4.0",
+		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^5.0.1",
+		"@sveltejs/kit": "^2.5.9",
+		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@tailwindcss/forms": "^0.5.7",
+		"@types/node": "^20.14.0",
+		"jsdom": "^24.0.0",
+		"svelte": "^4.2.7",
+		"svelte-check": "^3.6.0",
+		"svelte-local-storage-store": "^0.6.4",
+		"tslib": "^2.4.1",
+		"typescript": "^5.0.0",
+		"vite": "^5.0.3",
+		"vite-plugin-tailwind-purgecss": "^0.3.3"
+  },
+  "type": "module",
+  "dependencies": {
+		"autoprefixer": "^10.4.19",
+		"html5-qrcode": "^2.3.8",
+		"jspdf": "^2.5.1",
+		"path": "^0.12.7",
+		"pdf-lib": "^1.17.1",
+		"postcss": "^8.4.38",
+		"qrcode": "^1.5.3",
+		"skeleton-ui": "^0.0.8",
+		"svelte-i18n": "^4.0.0",
+		"tailwindcss": "^3.4.4",
+		"url": "^0.11.3"
+  }
+}
