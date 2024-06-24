@@ -1,11 +1,8 @@
 <script lang="ts">
   import type { Game } from '@shared/types';
   import { games } from '@shared/stores/games';
-  import { setupI18n, _ } from '@shared/i18n';
   import { onMount } from 'svelte';
-
-  // Initialize i18n
-  setupI18n();
+  import { _ } from '@shared/i18n';
 
   let editIndex = -1;
   let editField: keyof Game = 'title';

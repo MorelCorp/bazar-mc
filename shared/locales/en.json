@@ -4,5 +4,10 @@
   "gameName": "Game Name",
   "price": "Price",
   "stickerNote": "(Please round up the amount)",
-  "stickerFee": "$2 will be deducted from the sale of each game for the benefit of Jeux de Société Qc."
+  "stickerFee": "$2 will be deducted from the sale of each game for the benefit of Jeux de Société Qc.",
+  "Register": "Register",
+  "Sale": "Sale",
+  "Checkout": "Checkout",
+  "StartScan": "Start",
+  "StopScan": "Stop"
 }

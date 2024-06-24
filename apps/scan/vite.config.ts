@@ -15,9 +15,10 @@ export default defineConfig({
     },
   },
   ssr: {
-    noExternal: ['@skeletonlabs/skeleton'],
+    noExternal: ['@skeletonlabs/skeleton', "svelte-hero-icons"],
   },
   server: {
+    port: 3001,
     fs: {
       allow: ['../../shared'],
     },

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { _ } from '@shared/i18n';
   
 	const navigateToRegister = () => goto('/register');
 	const navigateToSale = () => goto('/sale');
@@ -16,10 +17,7 @@
 	  text-align: center;
 	}
 	.btn {
-	  margin: 1rem;
-	  padding: 1rem 2rem;
-	  font-size: 1.5rem;
-	  cursor: pointer;
+		@apply w-10/12 px-8 py-4 m-4 text-4xl cursor-pointer;
 	}
 	.bazaar-btn {
 	  position: absolute;
@@ -31,8 +29,8 @@
   <main>
 	<button class="bazaar-btn" on:click={() => console.log('Open bazaar selection')}>Bazaar</button>
 	<h1>Welcome to Bazaar Scanner App</h1>
-	<button class="btn" on:click={navigateToRegister}>Register</button>
-	<button class="btn" on:click={navigateToSale}>Sale</button>
-	<button class="btn" on:click={navigateToCheckout}>Checkout</button>
+	<button type="button" class="btn variant-filled" on:click={navigateToRegister}>{$_('Register')}</button>
+	<button type="button" class="btn variant-filled" on:click={navigateToSale}>{$_('Sale')}</button>
+	<button type="button" class="btn variant-filled" on:click={navigateToCheckout}>{$_('Checkout')}</button>
   </main>
   

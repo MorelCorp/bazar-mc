@@ -4,5 +4,10 @@
   "gameName": "Nom du jeu",
   "price": "Prix",
   "stickerNote": "(Montant arrondi s.v.p.)",
-  "stickerFee": "2$ sera prélevé de la vente de chacun des jeux au profit de Jeux de Société Qc."
+  "stickerFee": "2$ sera prélevé de la vente de chacun des jeux au profit de Jeux de Société Qc.",
+  "Register": "Inscription",
+  "Sale": "Vente",
+  "Checkout": "Retrait",
+  "StartScan": "Start",
+  "StopScan": "Stop"
 }

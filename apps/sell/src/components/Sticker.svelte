@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { _ } from '@shared/i18n';
   import QRCode from 'qrcode';
-  import { setupI18n, _ } from '@shared/i18n';
   
   export let logoUrl: string = '/logo.png';
   export let sellerName: string;
@@ -19,9 +19,6 @@
         console.error(err);
       });
   };
-
-  // Initialize i18n
-  setupI18n();
 
   // Regenerate QR code when inputs change
   $: generateQRCode();

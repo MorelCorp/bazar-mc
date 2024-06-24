@@ -2,9 +2,14 @@
     export let form;
     import '../app.css';
     import { onMount } from 'svelte';
+
+    import { setupI18n, _ } from '@shared/i18n';
+
     // import { user } from '$lib/stores';
-    
     // import { auth, provider, signInWithPopup } from '$lib/firebase';
+
+    // Initialize i18n
+    setupI18n();
   
     // onMount(() => {
     //   auth.onAuthStateChanged((u) => {
