@@ -12,7 +12,9 @@
 
   const { Html5Qrcode } = Html5QrcodePkg;
 
-  export let onScanComplete: (result: string) => void;
+  export let onScanComplete: (result: string) => void = (result) => {
+    alert(result);
+  };
   let qrCodeScanner: InstanceType<typeof Html5Qrcode>;
   let isScanning = writable(false);
   let qrReaderSize = writable("400px"); // Initialize as a writable store
@@ -25,7 +27,6 @@
           { facingMode: "environment" },
           {
             fps: 10,
-
             aspectRatio: 1.0, // Force a square aspect ratio
           },
           (decodedText: string) => {
@@ -101,6 +102,7 @@
       >
         {#if $isScanning}
           <div class="overlay">
+            <div id="on-air" class="ml-2 w-2 h-2 rounded-full bg-green-500" />
             <div class="dotted-border">
               <div class="chevron top-left"></div>
               <div class="chevron top-right"></div>
@@ -108,6 +110,11 @@
               <div class="chevron bottom-right"></div>
               <div class="cross"></div>
             </div>
+          </div>
+        {:else}
+          <div class="overlay">
+            <div id="on-air" class="ml-2 w-2 h-2 rounded-full bg-gray-300" />
+            <Icon src={CameraIconSlash} class="w-10 h-10 text-gray-300" />
           </div>
         {/if}
       </div>
@@ -119,14 +126,13 @@
   <button
     on:click={toggleScanning}
     type="button"
-    class="btn-icon variant-filled h-2/12 w-2/12"
+    class="btn-icon variant-filled h-20 w-20"
   >
     {#if $isScanning}
       <span><Icon src={CameraIconSlash} solid class="h-6 w-6 mr-2" /></span>
     {:else}
       <span><Icon src={CameraIcon} solid class="h-6 w-6 mr-2" /></span>
     {/if}
-    <!-- <span><div class={`ml-2 w-2 h-2 rounded-full ${$isScanning ? 'bg-green-500' : 'bg-gray-300'}`}></div></span> -->
   </button>
 </div>
 
@@ -139,6 +145,8 @@
     justify-content: center;
     align-items: center;
     margin: auto;
+    border-radius: 15px;
+    overflow: hidden;
   }
   #qr-reader-container {
     position: relative;
@@ -157,6 +165,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  #on-air {
+    position: absolute;
+    top: 4%;
+    left: 1%;
   }
   .dotted-border {
     position: absolute;
