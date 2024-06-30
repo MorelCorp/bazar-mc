@@ -1,9 +1,8 @@
-<script lang="ts">
-  import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-  import { get } from 'svelte/store';
-  import { games } from '@shared/stores/games';
-  import { user } from '@shared/stores/user';
-  import { drawSticker } from './Sticker.svelte';
+  import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+  import { get } from "svelte/store";
+  import { games } from "@shared/stores/games";
+  import { user } from "@shared/stores/user";
+
 
   export async function generateStickers() {
     try {
@@ -15,21 +14,57 @@
 
       // Add user info
       const userInfo = get(user);
-      page.drawText(`Name: ${userInfo.name}`, { x: 50, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
+      page.drawText(`Name: ${userInfo.name}`, {
+        x: 50,
+        y: yOffset,
+        size: 12,
+        font,
+        color: rgb(0, 0, 0),
+      });
       yOffset -= 20;
-      page.drawText(`Email: ${userInfo.email}`, { x: 50, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
+      page.drawText(`Email: ${userInfo.email}`, {
+        x: 50,
+        y: yOffset,
+        size: 12,
+        font,
+        color: rgb(0, 0, 0),
+      });
       yOffset -= 40;
 
       // Add table headers
-      page.drawText("Game Name", { x: 50, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
-      page.drawText("Price", { x: 300, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
+      page.drawText("Game Name", {
+        x: 50,
+        y: yOffset,
+        size: 12,
+        font,
+        color: rgb(0, 0, 0),
+      });
+      page.drawText("Price", {
+        x: 300,
+        y: yOffset,
+        size: 12,
+        font,
+        color: rgb(0, 0, 0),
+      });
       yOffset -= 20;
 
       // Add games table
       const gameData = get(games);
       gameData.forEach((game, index) => {
-        page.drawText(game.title, { x: 50, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
-        page.drawText(`$${game.price}`, { x: 300, y: yOffset, size: 12, font, color: rgb(0, 0, 0) });
+        page.drawText(game.title, {
+          x: 50,
+          y: yOffset,
+          size: 12,
+          font,
+          color: rgb(0, 0, 0),
+        });
+        page.drawText(`$${game.price}`, {
+          x: 300,
+          y: yOffset,
+          size: 12,
+          font,
+          color: rgb(0, 0, 0),
+        });
         yOffset -= 20;
         if (yOffset < 50) {
           yOffset = height - 50;
@@ -47,7 +82,14 @@
           stickersXOffset = 50;
         }
 
-        drawSticker(page, stickersXOffset, stickersYOffset, game, userInfo, index + 1);
+        drawSticker(
+          page,
+          stickersXOffset,
+          stickersYOffset,
+          game,
+          userInfo,
+          index + 1
+        );
 
         stickersYOffset -= 160;
         if ((index + 1) % 4 === 0) {
@@ -57,10 +99,10 @@
       });
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const link = document.createElement('a');
+      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = 'bazaar_stickers.pdf';
+      link.download = "bazaar_stickers.pdf";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -68,4 +110,4 @@
       console.error("Error generating PDF:", error);
     }
   }
-</script>
+

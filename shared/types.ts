@@ -5,6 +5,7 @@ export interface Game {
   }
   
   export interface User {
+    uuid: string;
     name: string;
     email: string;
   }
