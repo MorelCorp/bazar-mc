@@ -66,66 +66,50 @@
   .sticker {
     border: 2px solid #000;
     border-radius: 15px;
-    padding: 20px;
-    width: 400px; /* Increased width */
-    height: 250px; /* Decreased height */
+    padding: 10px;
     font-family: Arial, sans-serif;
     position: relative;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
 
   .sticker-header {
     display: flex;
-    justify-content: space-between; /* Adjust to space-between for ID and QR code */
+    justify-content: space-between;
     align-items: center;
-    position: relative;
-    top: 15px;
   }
 
   .sticker-logo {
-    max-height: 50px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    max-height: 30px;
   }
 
   .sticker-number {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
-    position: absolute;
-    left: 10px;
   }
 
   .qr-code {
-    width: 80px; /* Adjust size to match the price circle */
-    height: 80px; /* Adjust size to match the price circle */
-    position: absolute;
-    top: -1px;
-    right: -8px;
+    width: 60px;
+    height: 60px;
   }
 
   .sticker-content {
-    margin-top: 60px; /* Adjust to make room for the header */
-    padding-bottom: 90px; /* Reserve space for the price circle */
-    padding-right: 90px; /* Reserve space for the price circle */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .sticker-content div {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .price {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    border: 2px solid #000;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    bottom: 10px; /* Adjust to ensure it stays within the boundary */
-    right: 10px; /* Adjust to ensure it stays within the boundary */
+    align-self: flex-end;
   }
 </style>
