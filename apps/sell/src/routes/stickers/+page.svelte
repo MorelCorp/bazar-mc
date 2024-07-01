@@ -49,9 +49,11 @@
   {/each}
 </main>
 
+<!-- width: 9.5in instead of 8.5in because it does not render as it should... -->
+
 <style>
   .page {
-    width: 8.5in;
+    width: 9.5in;
     height: 11in;
     page-break-after: always;
     display: grid;
@@ -81,6 +83,13 @@
     .page {
       margin-bottom: 2rem;
       border: 1px solid #ccc;
+      /* Increase the size of the page outline */
+      transform: scale(0.9);
+      transform-origin: top center;
+      /* Add some padding around the page */
+      padding: 0.75in;
+      /* Add a light gray background */
+      background-color: #f0f0f0;
     }
   }
   @media print {
@@ -90,6 +99,10 @@
     .page {
       margin: 0;
       padding: 0.25in;
+      /* Reset any screen-specific styles */
+      transform: none;
+      background-color: transparent;
+      border: none;
     }
     @page {
       size: letter;
