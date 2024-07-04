@@ -2,11 +2,11 @@
   import { onMount } from "svelte";
   import Sticker from "../../components/Sticker.svelte";
   import { games } from "@shared/stores/games";
-  import { user } from "@shared/stores/user";
 
   let stickerPages: any[] = [];
 
   const generateStickerPages = () => {
+    console.log("Generating sticker pages:", $games);
     let stickersPerPage = 8;
     stickerPages = [];
     for (let i = 0; i < $games.length; i += stickersPerPage) {
@@ -31,14 +31,7 @@
   {#each stickerPages as page, pageIndex}
     <div class="page">
       {#each page as game, index}
-        <Sticker
-          logoUrl="/logo.png"
-          sellerUUID={$user.uuid}
-          sellerName={$user.name}
-          gameName={game.title}
-          price={game.price}
-          stickerNumber={pageIndex * 8 + index + 1}
-        />
+        <Sticker logoUrl="/logo.png" {game} />
       {/each}
       {#if page.length < 8}
         {#each Array(8 - page.length) as _}

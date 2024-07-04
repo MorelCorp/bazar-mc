@@ -1,6 +1,8 @@
 export interface Game {
-    title: string;
+    name: string;
     price: number;
+    id: number;
+    seller: User;
     sold: boolean;
   }
   

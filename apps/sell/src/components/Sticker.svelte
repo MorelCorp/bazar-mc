@@ -1,65 +1,49 @@
 <script lang="ts">
   import { _ } from "@shared/i18n";
-  import QRCode from "qrcode";
+
+  import { generateQRCode } from "@shared/lib/qrCode";
+  import type { Game } from "@shared/types";
+
   import { onMount } from "svelte";
 
   export let logoUrl: string = "/logo.png";
-  export let sellerUUID: string;
-  export let sellerName: string;
-  export let gameName: string;
-  export let price: number;
-  export let stickerNumber: number;
 
   let qrCodeUrl: string;
+  export let game: Game;
 
-  onMount(() => {
-    generateQRCode();
+  onMount(async () => {
+    console.log("Generating sticker for", game);
+
+    // Generate QR Code for the game handling errors as needed
+    try {
+      qrCodeUrl = await generateQRCode(game);
+    } catch (error) {
+      console.error("Failed to generate QR Code", error);
+    }
   });
-
-  const generateQRCode = () => {
-    let content = {
-      seller: {
-        name: sellerName,
-        uuid: sellerUUID,
-      },
-      game: {
-        name: gameName,
-        price: price,
-        id: stickerNumber,
-      },
-    };
-
-    QRCode.toDataURL(JSON.stringify(content))
-      .then((url) => {
-        qrCodeUrl = url;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
 </script>
 
 <div class="sticker">
   <div class="sticker-header">
-    <div class="sticker-number">{stickerNumber}</div>
+    <div class="sticker-number">{game.id}</div>
     <img class="sticker-logo" src={logoUrl} alt="Organizer Logo" />
     <img src={qrCodeUrl} alt="QR Code" class="qr-code" />
   </div>
   <div class="sticker-content">
     <div>
       <strong>{$_("sellerName")}</strong>
-      {sellerName}
+      {game.seller.name}
     </div>
     <div>
       <strong>{$_("gameName")}</strong>
-      {gameName}
+      {game.name}
     </div>
     <div>
       <em>{$_("stickerNote")}</em><br />
       {$_("stickerFee")}
     </div>
   </div>
-  <div class="price">{price}$</div>
+  <div class="price">{game.price}$</div>
 </div>
 
 <style>
